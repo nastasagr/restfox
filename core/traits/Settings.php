@@ -41,6 +41,18 @@ trait Settings
         );
 
 
+
+         register_setting(
+            'restfox_settings_group',
+            'restfox_show_posts',
+            [
+                'type'    => 'boolean',
+                'default' => 0,
+                'sanitize_callback' => fn($v) => (int) (bool) $v,
+            ]
+        );
+
+
         register_setting(
             'restfox_settings_group',
             'restfox_change_config',
@@ -76,6 +88,7 @@ trait Settings
         $show_themes   = get_option('restfox_show_themes', 0);
         $show_plugins  = get_option('restfox_show_plugins', 0);
         $show_users  = get_option('restfox_show_users', 0);
+        $show_posts  = get_option('restfox_show_posts', 0);
         $show_versions  = get_option('restfox_show_versions', 0);
         $change_config  = get_option('restfox_change_config', 0);
 ?>
@@ -157,7 +170,7 @@ trait Settings
                 </div>
 
 
-                <!-- view users option -->
+                <!-- view posts option -->
                 <div class="restfox-option">
                     <div class="option-details">
                         <div class="iconarea">
@@ -171,8 +184,8 @@ trait Settings
                     </div>
 
                     <label class="toggle">
-                        <input type="hidden" name="restfox_show_users" value="0">
-                        <input type="checkbox" name="restfox_show_users" value="1" <?php checked(1, $show_users); ?>>
+                        <input type="hidden" name="restfox_show_posts" value="0">
+                        <input type="checkbox" name="restfox_show_posts" value="1" <?php checked(1, $show_posts); ?>>
                         <span class="toggle track"></span>
                     </label>
                 </div>

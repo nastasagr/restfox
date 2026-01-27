@@ -27,6 +27,13 @@ trait Routes
         ]);
 
 
+         register_rest_route('restfox/v1', '/posts', [
+            'methods'             => 'GET',
+            'callback'            => [$this, 'get_posts'],
+            'permission_callback' => [$this, 'permissions_check'],
+        ]);
+
+
 
         register_rest_route('restfox/v1', '/login', [
             'methods'             => 'POST',
