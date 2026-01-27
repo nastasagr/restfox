@@ -33,6 +33,11 @@ trait Routes
             'permission_callback' => [$this, 'permissions_check'],
         ]);
 
+        register_rest_route( 'restfox/v1', '/posts/(?P<postID>\d+)', [
+            'methods'  => 'DELETE',
+            'callback' => [ $this, 'delete_post' ],
+            'permission_callback' => [$this, 'permissions_check'],
+        ] );
 
 
         register_rest_route('restfox/v1', '/login', [
