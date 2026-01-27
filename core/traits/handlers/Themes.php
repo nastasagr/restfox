@@ -22,14 +22,18 @@ trait ThemesHandler
         $themes = wp_get_themes();
         $data   = [];
 
-        foreach ($themes as $stylesheet => $theme) {
+            foreach ($themes as $stylesheet => $theme) {
+
+            $thumbnail = get_theme_file_uri( 'screenshot.png' ); 
             $data[] = [
                 'name'       => $theme->get('Name'),
+                'thumbnail'  => $thumbnail,
                 'version'    => $theme->get('Version'),
                 'stylesheet' => $stylesheet,
                 'template'   => $theme->get_template(),
                 'author'     => $theme->get('Author'),
                 'active'     => ($stylesheet === get_stylesheet()),
+               
             ];
         }
 
