@@ -45,6 +45,10 @@ trait PluginsHandler
     {
         $plugin = sanitize_text_field($request['plugin']);
 
+        if ($plugin === RESTFOX_BASENAME) {
+            return new WP_Error('rest_forbidden', 'Cannot deactivate RestFox plugin', ['status' => 403]);
+        }
+
         if (!$plugin) {
             return new WP_Error(
                 'missing_plugin',
@@ -81,6 +85,10 @@ trait PluginsHandler
         require_once ABSPATH.'wp-admin/includes/file.php';
 
         $plugin = sanitize_text_field($request['plugin']);
+
+        if ($plugin === RESTFOX_BASENAME) {
+            return new WP_Error('rest_forbidden', 'Cannot uninstall RestFox plugin', ['status' => 403]);
+        }
 
         if (!$plugin) {
             return new WP_Error(
