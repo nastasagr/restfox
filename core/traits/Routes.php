@@ -22,6 +22,12 @@ trait Routes
             'permission_callback' => [$this, 'permissions_check'],
         ]);
 
+        register_rest_route('restfox/v1', '/plugins/uninstall', [
+            'methods' => 'DELETE',
+            'callback' => [$this, 'uninstall_plugin'],
+            'permission_callback' => [$this, 'permissions_check'],
+        ]);
+
         register_rest_route('restfox/v1', '/users', [
             'methods' => 'GET',
             'callback' => [$this, 'get_users'],
