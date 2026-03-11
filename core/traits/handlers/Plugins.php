@@ -1,18 +1,15 @@
 <?php
 
-
 trait PluginsHandler
 {
     /**
-     * Handler for /restfox/v1/plugins
+     * Handler for /restfox/v1/plugins.
      */
-
     public function get_plugins()
     {
-
         $show_plugins = (int) get_option('restfox_show_plugins', 0);
 
-        if (! $show_plugins) {
+        if (!$show_plugins) {
             return new WP_Error(
                 'rest_forbidden',
                 'This feature is disabled by RestFox API settings',
@@ -21,13 +18,14 @@ trait PluginsHandler
         }
 
         $plugins = get_plugins();
-        $data   = [];
+        $data = [];
 
-        foreach ($plugins as $plugin) {
+        foreach ($plugins as $plugin_path => $plugin) {
             $data[] = [
-                'name'       => $plugin['Name'],
-                'version'    => $plugin['Version'],
-                'author'     => $plugin['Author'],
+                'name' => $plugin['Name'],
+                'plugin_url' => $plugin_path,
+                'version' => $plugin['Version'],
+                'author' => $plugin['Author'],
             ];
         }
 
