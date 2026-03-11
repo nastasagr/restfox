@@ -33,4 +33,36 @@ trait PluginsHandler
             'plugins' => $data,
         ];
     }
+
+    /**
+     * Handler for /restfox/v1/plugins/disable.
+     */
+    public function disable_plugin($request)
+    {
+        $plugin = sanitize_text_field($request['plugin']);
+
+        if (!$plugin) {
+            return new WP_Error(
+                'missing_plugin',
+                'Plugin parameter is required',
+                ['status' => 400]
+            );
+        }
+
+        if (!is_plugin_active($plugin)) {
+            return new WP_Error(
+                'plugin_not_active',
+                'Plugin is not active',
+                ['status' => 400]
+            );
+        }
+
+        deactivate_plugins($plugin);
+
+        return [
+            'success' => true,
+            'message' => 'Plugin disabled successfully',
+            'plugin' => $plugin,
+        ];
+    }
 }
