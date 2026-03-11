@@ -4,6 +4,8 @@ trait PluginsHandler
 {
     /**
      * Handler for /restfox/v1/plugins.
+     *
+     * @method GET
      */
     public function get_plugins()
     {
@@ -36,6 +38,8 @@ trait PluginsHandler
 
     /**
      * Handler for /restfox/v1/plugins/disable.
+     *
+     * @method POST
      */
     public function disable_plugin($request)
     {
@@ -62,6 +66,52 @@ trait PluginsHandler
         return [
             'success' => true,
             'message' => 'Plugin disabled successfully',
+            'plugin' => $plugin,
+        ];
+    }
+
+    /**
+     * Handler for /restfox/v1/plugins/uninstal.
+     *
+     * @method DELETE
+     */
+    public function uninstall_plugin($request)
+    {
+        require_once ABSPATH.'wp-admin/includes/plugin.php';
+        require_once ABSPATH.'wp-admin/includes/file.php';
+
+        $plugin = sanitize_text_field($request['plugin']);
+
+        if (!$plugin) {
+            return new WP_Error(
+                'missing_plugin',
+                'Plugin parameter is required',
+                ['status' => 400]
+            );
+        }
+
+        if (!file_exists(WP_PLUGIN_DIR.'/'.$plugin)) {
+            return new WP_Error(
+                'plugin_not_found',
+                'Plugin not found',
+                ['status' => 404]
+            );
+        }
+
+        // deactivate first if active
+        if (is_plugin_active($plugin)) {
+            deactivate_plugins($plugin);
+        }
+
+        $result = delete_plugins([$plugin]);
+
+        if (is_wp_error($result)) {
+            return $result;
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Plugin uninstalled successfully',
             'plugin' => $plugin,
         ];
     }
