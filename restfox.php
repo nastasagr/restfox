@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 
 define('RESTFOX_BASENAME', plugin_basename(__FILE__));
 
+require_once __DIR__.'/initializer.php';
 require_once __DIR__.'/core/API.php';
 
 /*
